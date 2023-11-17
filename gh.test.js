@@ -2,7 +2,6 @@ let page;
 
 beforeEach(async () => {
   page = await browser.newPage();
-  await page.goto("https://github.com/team");
 });
 
 afterEach(() => {
@@ -10,7 +9,12 @@ afterEach(() => {
 });
 
 describe("Github page tests", () => {
-  test("The h1 header content'", async () => {
+
+  beforeEach(async () => {
+    await page.goto("https://github.com/team");
+  });
+
+  test("The h1 header content", async () => {
     const firstLink = await page.$("header div div a");
     await firstLink.click();
     await page.waitForSelector('h1');
@@ -32,3 +36,27 @@ describe("Github page tests", () => {
     expect(actual).toContain("Get started with Team")
   }, 10000);
 });
+
+test("The h1 header content 2", async () => {
+  await page.goto("https://github.com/marketplace");
+
+  await page.waitForSelector('h1');
+  const title2 = await page.title();
+  expect(title2).toEqual('GitHub Marketplace · to improve your workflow · GitHub');
+}, 10000);
+
+test("The h1 header content 3", async () => {
+  await page.goto("https://github.com/explore");
+
+  await page.waitForSelector('h1');
+  const title2 = await page.title();
+  expect(title2).toEqual('Explore GitHub · GitHub');
+}, 10000);
+
+test("The h1 header content 4", async () => {
+  await page.goto("https://github.com/enterprise");
+
+  await page.waitForSelector('h1');
+  const title2 = await page.title();
+  expect(title2).toEqual('The AI Powered Developer Platform. · GitHub');
+}, 10000);
